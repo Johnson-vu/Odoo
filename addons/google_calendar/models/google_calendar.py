@@ -380,16 +380,16 @@ class GoogleCalendar(models.AbstractModel):
 
         try:
             status, content, ask_time = self.env['google.service']._do_request(url, data_json, headers, type='PATCH')
+            update_date = datetime.strptime(content['updated'], "%Y-%m-%dT%H:%M:%S.%fz")
+            oe_event.write({'oe_update_date': update_date})
+
+            if self.env.context.get('curr_attendee'):
+                self.env['calendar.attendee'].browse(self.env.context['curr_attendee']).write(
+                    {'oe_synchro_date': update_date})
         except requests.HTTPError as e:
             if e.response.status_code != 403:
                 raise e
             _logger.info("Could not update Google event %s" % google_event['id'])
-
-        update_date = datetime.strptime(content['updated'], "%Y-%m-%dT%H:%M:%S.%fz")
-        oe_event.write({'oe_update_date': update_date})
-
-        if self.env.context.get('curr_attendee'):
-            self.env['calendar.attendee'].browse(self.env.context['curr_attendee']).write({'oe_synchro_date': update_date})
 
     def update_an_event(self, event):
         data = self.generate_data(event)
@@ -457,7 +457,7 @@ class GoogleCalendar(models.AbstractModel):
                 partner_email = google_attendee.get('email')
                 if type == "write":
                     for oe_attendee in event['attendee_ids']:
-                        if oe_attendee.email == google_attendee['email']:
+                        if oe_attendee.email == partner_email or oe_attendee.partner_id.user_ids.google_calendar_cal_id == partner_email:
                             oe_attendee.write({'state': google_attendee['responseStatus'], 'google_internal_event_id': single_event_dict.get('id')})
                             google_attendee['found'] = True
                             continue
@@ -465,9 +465,11 @@ class GoogleCalendar(models.AbstractModel):
                 if google_attendee.get('found'):
                     continue
 
-                attendee = ResPartner.search([('email', '=ilike', google_attendee['email']), ('user_ids', '!=', False)], limit=1)
+                attendee = ResPartner.search([('user_ids.google_calendar_cal_id', '=ilike', partner_email)], limit=1)
                 if not attendee:
-                    attendee = ResPartner.search([('email', '=ilike', google_attendee['email'])], limit=1)
+                    attendee = ResPartner.search([('email', '=ilike', partner_email), ('user_ids', '!=', False)], limit=1)
+                if not attendee:
+                    attendee = ResPartner.search([('email', '=ilike', partner_email)], limit=1)
                 if not attendee:
                     data = {
                         'email': partner_email,
