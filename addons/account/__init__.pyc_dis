@@ -1,0 +1,20 @@
+# Embedded file name: /opt/lamthao/server/openerp/addons/account/__init__.py
+import partner
+import account
+import installer
+import project
+import account_invoice
+import account_bank_statement
+import account_bank
+import account_cash_statement
+import account_move_line
+import account_analytic_line
+import account_financial_report
+import wizard
+import report
+import product
+import ir_sequence
+import company
+import res_currency
+import edi
+import res_config

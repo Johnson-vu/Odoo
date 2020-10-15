@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_icsc_print_2702_user,icsc_print_2702 user,model_icsc_print_2702,base.group_user,1,1,1,1
+access_icsc_print_2702_chitiet_user,icsc_print_2702_chitiet user,model_icsc_print_2702_chitiet,base.group_user,1,1,1,1

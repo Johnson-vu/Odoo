@@ -18,14 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import osv
 
 class account_unreconcile(osv.osv_memory):
-    _name = "account.unreconcile"
-    _description = "Account Unreconcile"
+    _name = 'account.unreconcile'
+    _description = 'Account Unreconcile'
 
-    def trans_unrec(self, cr, uid, ids, context=None):
+    def trans_unrec(self, cr, uid, ids, context = None):
         obj_move_line = self.pool.get('account.move.line')
         if context is None:
             context = {}
@@ -33,13 +32,14 @@ class account_unreconcile(osv.osv_memory):
             obj_move_line._remove_move_reconcile(cr, uid, context['active_ids'], context=context)
         return {'type': 'ir.actions.act_window_close'}
 
+
 account_unreconcile()
 
 class account_unreconcile_reconcile(osv.osv_memory):
-    _name = "account.unreconcile.reconcile"
-    _description = "Account Unreconcile Reconcile"
+    _name = 'account.unreconcile.reconcile'
+    _description = 'Account Unreconcile Reconcile'
 
-    def trans_unrec_reconcile(self, cr, uid, ids, context=None):
+    def trans_unrec_reconcile(self, cr, uid, ids, context = None):
         obj_move_reconcile = self.pool.get('account.move.reconcile')
         if context is None:
             context = {}
@@ -48,6 +48,5 @@ class account_unreconcile_reconcile(osv.osv_memory):
             obj_move_reconcile.unlink(cr, uid, rec_ids, context=context)
         return {'type': 'ir.actions.act_window_close'}
 
-account_unreconcile_reconcile()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+account_unreconcile_reconcile()

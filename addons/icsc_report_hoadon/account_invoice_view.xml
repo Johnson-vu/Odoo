@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+	<record model="ir.ui.view" id="res_ac_invoice_inherit_form_view">
+	    <field name="name">account.invoice.report.inherit</field>
+	    <field name="model">account.invoice</field>
+	    <field name="inherit_id" ref="account.invoice_form"/>
+	    <field name="arch" type="xml">
+	       <xpath expr="//form/header/button[@name='invoice_cancel']" position="before">  
+	           <button name="print_hoadon" class="oe_highlight" groups="icsc_report_hoadon.nhom_quan_ly_hoadon_lt" type="object" 
+	           attrs="{'invisible': ['|','|',('loai_hoadon','!=','thongthuong'),('co_phi_baove','!=',False),('haiduong_id','!=',1)]}" string="In VAT(Mẫu 1)"/>
+	           <button name="print_hoadon1" class="oe_highlight" groups="icsc_report_hoadon.nhom_quan_ly_hoadon_lt" type="object" 
+	           attrs="{'invisible': ['|','|',('loai_hoadon','!=','thongthuong'),('co_phi_baove','!=',True),('haiduong_id','!=',1)]}" string="In VAT(Mẫu 2)"/>
+	           <button name="print_phieuxuat" class="oe_highlight" groups="icsc_report_hoadon.nhom_quan_ly_hoadon_lt" type="object" 
+	           attrs="{'invisible': ['|',('loai_hoadon','!=','noibo'),('haiduong_id','!=',1)]}" string="In PXK kiêm VCNB"/>
+	           
+	           <button name="print_hoadon_hd" class="oe_highlight" type="object" 
+	           attrs="{'invisible': ['|','|',('loai_hoadon','!=','thongthuong'),('co_phi_baove','!=',False),('haiduong_id','!=',2)]}" string="In VAT(Mẫu 1)"/>
+	           <button name="print_hoadon1_hd" class="oe_highlight" type="object" 
+	           attrs="{'invisible': ['|','|',('loai_hoadon','!=','thongthuong'),('co_phi_baove','!=',True),('haiduong_id','!=',2)]}" string="In VAT(Mẫu 2)"/>
+	           <button name="print_phieuxuat_hd" class="oe_highlight" type="object" 
+	           attrs="{'invisible': ['|',('loai_hoadon','!=','noibo'),('haiduong_id','!=',2)]}" string="In PXK kiêm VCNB"/>
+	      </xpath>
+	      <xpath expr="//field[@name='date_invoice']" position="after">  
+	      	<field name="shop" invisible="1"/>
+	      </xpath>
+	    </field>
+    </record>
+    
+    <record model="ir.ui.view" id="stock_picking_out_report_view">
+	    <field name="name">stock.picking.out.report</field>
+	    <field name="model">stock.picking.out</field>
+	    <field name="inherit_id" ref="stock.view_picking_out_form"/>
+	    <field name="arch" type="xml">
+	       <xpath expr="/form/header//button[@name='button_cancel']" position="after">  
+	            <button name="print_xuatkho" class="oe_highlight" type="object" string="In PXK" state="done"/>
+	      </xpath>
+	    </field>
+    </record>
+    
+    <record model="ir.ui.view" id="icsc_phieu_vanchuyen_report_view">
+	    <field name="name">icsc.phieu.vanchuyen.report</field>
+	    <field name="model">icsc.phieu.vanchuyen</field>
+	    <field name="inherit_id" ref="icsc_lt_vanchuyen.icsc_phieu_vanchuyen_form_view"/>
+	    <field name="arch" type="xml">
+	       <xpath expr="/form/header//button[@name='action_done']" position="after">  
+	       	<button name="print_pvc" class="oe_highlight" type="object" string="In PVC"
+	       			attrs="{'invisible': ['|',('state','!=','confirm'),('haiduong_id','!=',1)]}"/>
+	       	<button name="print_pvc_hd" class="oe_highlight" type="object" string="In PVC" 
+					attrs="{'invisible': ['|',('state','!=','confirm'),('haiduong_id','!=',2)]}"/>
+	      </xpath>
+	    </field>
+    </record>
+    
+    <record model="ir.ui.view" id="icsc_xacnhan_kiemsoat_report_view">
+	    <field name="name">icsc.xacnhan.kiemsoat.report</field>
+	    <field name="model">icsc.xacnhan.kiemsoat</field>
+	    <field name="inherit_id" ref="icsc_lt_xacnhan_kiemsoat.icsc_xacnhan_kiemsoat_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="/form/header//button[@name='action_confirm']" position="after">  
+	       		<button name="print_pks" class="oe_highlight" type="object" string="In PXNKS"
+	       		attrs="{'invisible': [('state','!=','confirm')]}"/>
+	      	</xpath>
+	    </field>
+    </record>
+    
+    <record model="ir.ui.view" id="icsc_denghithanhtoan_report_view">
+	    <field name="name">icsc.denghithanhtoan.vanchuyen.report</field>
+	    <field name="model">icsc.denghithanhtoan.vanchuyen</field>
+	    <field name="inherit_id" ref="icsc_lt_vanchuyen.icsc_denghithanhtoan_vanchuyen_form_view"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="/form/header//button[@name='action_cancel']" position="after">  
+	       		<button name="%(action_icsc_print_2702)d" type="action" class="oe_highlight" string="In ĐNTT"
+	       		attrs="{'invisible': [('state','!=','confirm')]}"/>
+	      	</xpath>
+	    </field>
+    </record>
+    </data>
+</openerp>
+              	

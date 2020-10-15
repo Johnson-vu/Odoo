@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version = "1.0" encoding = "UTF-8" standalone = "no" ?>
 <document filename="Packing List.pdf">
   <template pageSize="(595.0,842.0)" title="Packing List" author="OpenERP S.A.(sales@openerp.com)" allowSplitting="20">
     <pageTemplate id="first">
@@ -285,9 +285,9 @@
             <para style="terp_default_Centre_9">[[ (move_lines.prodlot_id and move_lines.prodlot_id.name) or '' ]]</para>
           </td>
           <td>
-            <para style="terp_default_9">[[ (picking.type == 'in' or removeParentNode('para')) and '' ]][[ move_lines.state == 'done' and 'Received' or move_lines.state]]</para>
-            <para style="terp_default_9">[[ (picking.type == 'out' or removeParentNode('para')) and '']][[ move_lines.state == 'done' and 'Delivered' or move_lines.state]]</para>
-            <para style="terp_default_9">[[ (picking.type == 'internal' or removeParentNode('para')) and '' ]][[ move_lines.state == 'done' and 'Transferred' or move_lines.state]]</para>
+            <para style="terp_default_9">[[ (picking.type == 'in' or removeParentNode('para')) ]][[ move_lines.state == 'done' and 'Received' or move_lines.state]]</para>
+            <para style="terp_default_9">[[ (picking.type == 'out' or removeParentNode('para')) ]][[ move_lines.state == 'done' and 'Delivered' or move_lines.state]]</para>
+            <para style="terp_default_9">[[ (picking.type == 'internal' or removeParentNode('para')) ]][[ move_lines.state == 'done' and 'Transferred' or move_lines.state]]</para>
           </td>
           <td>
             <para style="terp_default_Right_9">[[ (move_lines.location_id and move_lines.location_id.name) or '' ]] </para>

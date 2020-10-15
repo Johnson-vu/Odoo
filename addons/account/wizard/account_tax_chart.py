@@ -18,36 +18,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 
 class account_tax_chart(osv.osv_memory):
     """
     For Chart of taxes
     """
-    _name = "account.tax.chart"
-    _description = "Account tax chart"
-    _columns = {
-       'period_id': fields.many2one('account.period', \
-                                    'Period',  \
-                                    ),
-       'target_move': fields.selection([('posted', 'All Posted Entries'),
-                                        ('all', 'All Entries'),
-                                        ], 'Target Moves', required=True),
-    }
+    _name = 'account.tax.chart'
+    _description = 'Account tax chart'
+    _columns = {'period_id': fields.many2one('account.period', 'Period'),
+     'target_move': fields.selection([('posted', 'All Posted Entries'), ('all', 'All Entries')], 'Target Moves', required=True)}
 
-    def _get_period(self, cr, uid, context=None):
+    def _get_period(self, cr, uid, context = None):
         """Return default period value"""
         ctx = dict(context or {}, account_period_prefer_normal=True)
         period_ids = self.pool.get('account.period').find(cr, uid, context=ctx)
         return period_ids and period_ids[0] or False
 
-    def account_tax_chart_open_window(self, cr, uid, ids, context=None):
+    def account_tax_chart_open_window(self, cr, uid, ids, context = None):
         """
         Opens chart of Accounts
         @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: List of account chart’s IDs
+        @param uid: the current user\xe2\x80\x99s ID for security checks,
+        @param ids: List of account chart\xe2\x80\x99s IDs
         @return: dictionary of Open account chart window on given fiscalyear and all Entries or posted entries
         """
         mod_obj = self.pool.get('ir.model.data')
@@ -59,21 +52,17 @@ class account_tax_chart(osv.osv_memory):
         id = result and result[1] or False
         result = act_obj.read(cr, uid, [id], context=context)[0]
         if data.period_id:
-            result['context'] = str({'period_id': data.period_id.id, \
-                                     'fiscalyear_id': data.period_id.fiscalyear_id.id, \
-                                        'state': data.target_move})
+            result['context'] = str({'period_id': data.period_id.id,
+             'fiscalyear_id': data.period_id.fiscalyear_id.id,
+             'state': data.target_move})
             period_code = data.period_id.code
-            result['name'] += period_code and (':' + period_code) or ''
+            result['name'] += period_code and ':' + period_code or ''
         else:
             result['context'] = str({'state': data.target_move})
-
         return result
 
-    _defaults = {
-        'period_id': _get_period,
-        'target_move': 'posted'
-    }
+    _defaults = {'period_id': _get_period,
+     'target_move': 'posted'}
+
 
 account_tax_chart()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

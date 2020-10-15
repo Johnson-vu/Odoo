@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -26,42 +25,24 @@ class account_fiscalyear_close_state(osv.osv_memory):
     """
     Closes  Account Fiscalyear
     """
-    _name = "account.fiscalyear.close.state"
-    _description = "Fiscalyear Close state"
-    _columns = {
-       'fy_id': fields.many2one('account.fiscalyear', \
-                                 'Fiscal Year to Close', required=True, help="Select a fiscal year to close"),
-    }
+    _name = 'account.fiscalyear.close.state'
+    _description = 'Fiscalyear Close state'
+    _columns = {'fy_id': fields.many2one('account.fiscalyear', 'Fiscal Year to Close', required=True, help='Select a fiscal year to close')}
 
-    def data_save(self, cr, uid, ids, context=None):
+    def data_save(self, cr, uid, ids, context = None):
         """
         This function close account fiscalyear
         @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: List of Account fiscalyear close state’s IDs
-
+        @param uid: the current user\xe2\x80\x99s ID for security checks,
+        @param ids: List of Account fiscalyear close state\xe2\x80\x99s IDs
+        
         """
-        account_move_obj = self.pool.get('account.move')
-
-        for data in  self.read(cr, uid, ids, context=context):
+        for data in self.read(cr, uid, ids, context=context):
             fy_id = data['fy_id'][0]
-
-            account_move_ids = account_move_obj.search(cr, uid, [('period_id.fiscalyear_id', '=', fy_id), ('state', '=', "draft")], context=context)
-            if account_move_ids:
-                raise osv.except_osv(_('Invalid Action!'), _('In order to close a fiscalyear, you must first post related journal entries.'))
-
-            cr.execute('UPDATE account_journal_period ' \
-                        'SET state = %s ' \
-                        'WHERE period_id IN (SELECT id FROM account_period \
-                        WHERE fiscalyear_id = %s)',
-                    ('done', fy_id))
-            cr.execute('UPDATE account_period SET state = %s ' \
-                    'WHERE fiscalyear_id = %s', ('done', fy_id))
-            cr.execute('UPDATE account_fiscalyear ' \
-                    'SET state = %s WHERE id = %s', ('done', fy_id))
-
+            cr.execute('UPDATE account_journal_period SET state = %s WHERE period_id IN (SELECT id FROM account_period                         WHERE fiscalyear_id = %s)', ('done', fy_id))
+            cr.execute('UPDATE account_period SET state = %s WHERE fiscalyear_id = %s', ('done', fy_id))
+            cr.execute('UPDATE account_fiscalyear SET state = %s WHERE id = %s', ('done', fy_id))
             return {'type': 'ir.actions.act_window_close'}
 
-account_fiscalyear_close_state()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+account_fiscalyear_close_state()

@@ -18,31 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 
 class account_common_account_report(osv.osv_memory):
     _name = 'account.common.account.report'
     _description = 'Account Common Account Report'
-    _inherit = "account.common.report"
-    _columns = {
-        'display_account': fields.selection([('all','All'), ('movement','With movements'),
-                                            ('not_zero','With balance is not equal to 0'),
-                                            ],'Display Accounts', required=True),
+    _inherit = 'account.common.report'
+    _columns = {'display_account': fields.selection([('all', 'All'), ('movement', 'With movements'), ('not_zero', 'With balance is not equal to 0')], 'Display Accounts', required=True)}
+    _defaults = {'display_account': 'movement'}
 
-    }
-    _defaults = {
-        'display_account': 'movement',
-    }
-
-    def pre_print_report(self, cr, uid, ids, data, context=None):
+    def pre_print_report(self, cr, uid, ids, data, context = None):
         if context is None:
             context = {}
         data['form'].update(self.read(cr, uid, ids, ['display_account'], context=context)[0])
         return data
 
+
 account_common_account_report()
-
-#vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

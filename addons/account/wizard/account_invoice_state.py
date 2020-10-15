@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import osv
 from openerp.tools.translate import _
 from openerp import netsvc
@@ -28,22 +27,22 @@ class account_invoice_confirm(osv.osv_memory):
     """
     This wizard will confirm the all the selected draft invoices
     """
+    _name = 'account.invoice.confirm'
+    _description = 'Confirm the selected invoices'
 
-    _name = "account.invoice.confirm"
-    _description = "Confirm the selected invoices"
-
-    def invoice_confirm(self, cr, uid, ids, context=None):
+    def invoice_confirm(self, cr, uid, ids, context = None):
         wf_service = netsvc.LocalService('workflow')
         if context is None:
             context = {}
         pool_obj = pooler.get_pool(cr.dbname)
         data_inv = pool_obj.get('account.invoice').read(cr, uid, context['active_ids'], ['state'], context=context)
-
         for record in data_inv:
-            if record['state'] not in ('draft','proforma','proforma2'):
+            if record['state'] not in ('draft', 'proforma', 'proforma2'):
                 raise osv.except_osv(_('Warning!'), _("Selected invoice(s) cannot be confirmed as they are not in 'Draft' or 'Pro-Forma' state."))
             wf_service.trg_validate(uid, 'account.invoice', record['id'], 'invoice_open', cr)
+
         return {'type': 'ir.actions.act_window_close'}
+
 
 account_invoice_confirm()
 
@@ -52,23 +51,21 @@ class account_invoice_cancel(osv.osv_memory):
     This wizard will cancel the all the selected invoices.
     If in the journal, the option allow cancelling entry is not selected then it will give warning message.
     """
+    _name = 'account.invoice.cancel'
+    _description = 'Cancel the Selected Invoices'
 
-    _name = "account.invoice.cancel"
-    _description = "Cancel the Selected Invoices"
-
-    def invoice_cancel(self, cr, uid, ids, context=None):
+    def invoice_cancel(self, cr, uid, ids, context = None):
         if context is None:
             context = {}
         wf_service = netsvc.LocalService('workflow')
         pool_obj = pooler.get_pool(cr.dbname)
         data_inv = pool_obj.get('account.invoice').read(cr, uid, context['active_ids'], ['state'], context=context)
-
         for record in data_inv:
-            if record['state'] in ('cancel','paid'):
+            if record['state'] in ('cancel', 'paid'):
                 raise osv.except_osv(_('Warning!'), _("Selected invoice(s) cannot be cancelled as they are already in 'Cancelled' or 'Done' state."))
             wf_service.trg_validate(uid, 'account.invoice', record['id'], 'invoice_cancel', cr)
+
         return {'type': 'ir.actions.act_window_close'}
 
-account_invoice_cancel()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+account_invoice_cancel()

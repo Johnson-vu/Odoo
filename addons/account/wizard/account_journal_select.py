@@ -18,22 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import osv
 
 class account_journal_select(osv.osv_memory):
     """
         Account Journal Select
     """
-    _name = "account.journal.select"
-    _description = "Account Journal Select"
+    _name = 'account.journal.select'
+    _description = 'Account Journal Select'
 
-    def action_open_window(self, cr, uid, ids, context=None):
+    def action_open_window(self, cr, uid, ids, context = None):
         mod_obj = self.pool.get('ir.model.data')
         act_obj = self.pool.get('ir.actions.act_window')
         if context is None:
             context = {}
-
         result = mod_obj.get_object_reference(cr, uid, 'account', 'action_move_line_select')
         id = result and result[1] or False
         result = act_obj.read(cr, uid, [id])[0]
@@ -42,9 +40,9 @@ class account_journal_select(osv.osv_memory):
         if res:
             journal_id, period_id = res
             result['domain'] = str([('journal_id', '=', journal_id), ('period_id', '=', period_id)])
-            result['context'] = str({'journal_id': journal_id, 'period_id': period_id})
+            result['context'] = str({'journal_id': journal_id,
+             'period_id': period_id})
         return result
 
-account_journal_select()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+account_journal_select()

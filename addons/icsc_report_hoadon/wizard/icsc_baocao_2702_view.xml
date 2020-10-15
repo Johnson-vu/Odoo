@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>  
+  	
+	<record id="view_icsc_print_2702" model="ir.ui.view">
+    	<field name="name">icsc.print.2702.from</field>
+        <field name="model">icsc.print.2702</field>
+        <field name="arch" type="xml">
+			<form string="Cập nhật điểm tính cước" version="7.0">
+            	<sheet>
+                	<group >
+	                	<group>
+	                    	<field name="dv_vanchuyen" readonly="1"/>
+	                    	<field name="parent_id" invisible="1"/>
+	                    	<field name="ngay_bd" readonly="1"/>
+	                      	<field name="ngay_kt" readonly="1"/>                       
+	                    </group>
+	                    <group>
+	                      	<button name="print_dntt" string="In đề nghị thanh toán" type="object" class="oe_highlight"/>
+	                    </group>
+                    </group>
+                    <field name="chitiet_ids" invisible="1">	
+                   	   <tree editable="top">	
+		                     <field name="category_id" /> 	
+		                     <field name="so_phieu_ps"/>
+		                     <field name="so_phieu_tt"/> 
+		                     <field name="so_phieu_ton"/>              	                  		                 
+		                </tree>
+		                <form vertion="7.0"> 	
+		                  	 <field name="category_id" /> 	
+		                     <field name="so_phieu_ps"/>
+		                     <field name="so_phieu_tt"/>
+		                     <field name="so_phieu_ton"/>
+		                </form>	
+                     </field>
+				</sheet>
+                <footer>
+                    <div>
+                        <button special="cancel" string="Đóng" class="oe_link"/>
+                    </div>
+                </footer>
+                </form>
+            </field>
+		</record> 
+          
+	<record id="action_icsc_print_2702" model="ir.actions.act_window">
+               <field name="name">Tải thông tin</field>
+               <field name="type">ir.actions.act_window</field>
+               <field name="res_model">icsc.print.2702</field>
+               <field name="view_type">form</field>
+               <field name="view_mode">form</field>
+               <field name="context">{'record_id' : active_id}</field>
+               <field name="target">new</field>
+        </record>
+</data>
+</openerp>

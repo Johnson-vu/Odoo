@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -26,35 +25,30 @@ class account_period_close(osv.osv_memory):
     """
         close period
     """
-    _name = "account.period.close"
-    _description = "period close"
-    _columns = {
-        'sure': fields.boolean('Check this box'),
-    }
+    _name = 'account.period.close'
+    _description = 'period close'
+    _columns = {'sure': fields.boolean('Check this box')}
 
-    def data_save(self, cr, uid, ids, context=None):
+    def data_save(self, cr, uid, ids, context = None):
         """
         This function close period
         @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: account period close’s ID or list of IDs
+        @param uid: the current user\xe2\x80\x99s ID for security checks,
+        @param ids: account period close\xe2\x80\x99s ID or list of IDs
          """
         period_pool = self.pool.get('account.period')
         account_move_obj = self.pool.get('account.move')
-
         mode = 'done'
         for form in self.read(cr, uid, ids, context=context):
             if form['sure']:
                 for id in context['active_ids']:
-                    account_move_ids = account_move_obj.search(cr, uid, [('period_id', '=', id), ('state', '=', "draft")], context=context)
+                    account_move_ids = account_move_obj.search(cr, uid, [('period_id', '=', id), ('state', '=', 'draft')], context=context)
                     if account_move_ids:
                         raise osv.except_osv(_('Invalid Action!'), _('In order to close a period, you must first post related journal entries.'))
-
                     cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
                     cr.execute('update account_period set state=%s where id=%s', (mode, id))
 
         return {'type': 'ir.actions.act_window_close'}
 
-account_period_close()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+account_period_close()

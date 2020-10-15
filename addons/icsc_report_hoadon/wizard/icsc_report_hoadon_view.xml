@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    <record model="ir.ui.view" id="report_hoadongtgt_form_view">
+            <field name="name">icsc.report.hoadongtgt.form</field>
+            <field name="model">icsc.report.hoadongtgt</field>
+            <field name="arch" type="xml">
+                <form string="Hóa đơn" version="7.0"> 
+                <group>
+                        <separator string="Thông tin in hóa đơn" colspan="4"/>
+                        <newline/>
+                        <field name="hoa_don" readonly="1"/>
+                    </group>
+               
+                   <footer>
+                        <button name="print_hoadon" string="In VAT"
+                            colspan="1" type="object" class="oe_highlight"  />
+                        or
+                        <button string="Đóng" class="oe_link" special="cancel" />    
+                    </footer>
+               
+                  	
+                </form>
+                </field>
+         </record>
+   
+        
+           <record id="act_button_report_hoadongtgt" model="ir.actions.act_window">
+             <field name="name">In VAT (Mẫu 1)</field>
+             <field name="res_model">icsc.report.hoadongtgt</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="report_hoadongtgt_form_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+      
+      
+          <record model="ir.ui.view" id="report_hoadongtgt1_form_view">
+            <field name="name">icsc.report.hoadongtgt1.form</field>
+            <field name="model">icsc.report.hoadongtgt1</field>
+            <field name="arch" type="xml">
+                <form string="Hóa đơn" version="7.0"> 
+                <group>
+                        <separator string="Thông tin in hóa đơn" colspan="4"/>
+                        <newline/>
+                        <field name="hoa_don" readonly="1"/>
+                    </group>
+               
+                   <footer>
+                        <button name="print_hoadon1" string="In VAT"
+                            colspan="1" type="object" class="oe_highlight"  />
+                        or
+                        <button string="Đóng" class="oe_link" special="cancel" />    
+                    </footer>
+               
+                  	
+                </form>
+                </field>
+         </record>
+   
+        
+           <record id="act_button_report_hoadongtgt1" model="ir.actions.act_window">
+             <field name="name">In VAT (Mẫu 1)</field>
+             <field name="res_model">icsc.report.hoadongtgt1</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="report_hoadongtgt1_form_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+
+<!--        <record model="ir.values" id="ir_values_act_button_report_hoadongtgt"> -->
+<!--            <field name="key2" eval="'client_print_multi'"/> -->
+<!--            <field name="model" eval="'account.invoice'"/> -->
+<!--            <field name="name">Hóa đơn GTGT</field> -->
+<!--            <field name="value" eval="'ir.actions.act_window,%d'%act_button_report_hoadongtgt"/> -->
+<!--        </record> -->
+       
+       
+        <record model="ir.ui.view" id="report_phieuxuatkho_vanchuyen_form_view">
+            <field name="name">icsc.report.phieuxuatkho.vanchuyen.form</field>
+            <field name="model">icsc.report.phieuxuatkho.vanchuyen</field>
+            <field name="arch" type="xml">
+                <form string="Phiếu xuất kho và vận chuyển" version="7.0"> 
+                <group>
+                        <separator string="Thông tin in hóa đơn" colspan="4"/>
+                        <newline/>
+                        <field name="hoa_don" readonly="1"/>
+                    </group>
+               
+                   <footer>
+                        <button name="print_phieuxuat" string="In PXK kiêm VCNB"
+                            colspan="1" type="object" class="oe_highlight"  />
+                        or
+                        <button string="Đóng" class="oe_link" special="cancel" />    
+                    </footer>
+               
+                  	
+                </form>
+                </field>
+         </record>
+   
+        
+           <record id="act_button_report_phieuxuatkho" model="ir.actions.act_window">
+             <field name="name">In PXK kiêm VCNB</field>
+             <field name="res_model">icsc.report.phieuxuatkho.vanchuyen</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="report_phieuxuatkho_vanchuyen_form_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+
+<!--        <record model="ir.values" id="ir_values_act_button_report_hoadonthuongmai"> -->
+<!--            <field name="key2" eval="'client_print_multi'"/> -->
+<!--            <field name="model" eval="'account.invoice'"/> -->
+<!--            <field name="name">Phiếu xuất kho và vận chuyển</field> -->
+<!--            <field name="value" eval="'ir.actions.act_window,%d'%act_button_report_phieuxuatkho"/> -->
+<!--        </record> -->
+    </data>
+</openerp>

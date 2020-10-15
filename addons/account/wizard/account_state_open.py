@@ -19,7 +19,6 @@
 #
 ##############################################################################
 from openerp.osv import osv
-
 from openerp import netsvc
 from openerp.tools.translate import _
 
@@ -27,7 +26,7 @@ class account_state_open(osv.osv_memory):
     _name = 'account.state.open'
     _description = 'Account State Open'
 
-    def change_inv_state(self, cr, uid, ids, context=None):
+    def change_inv_state(self, cr, uid, ids, context = None):
         obj_invoice = self.pool.get('account.invoice')
         if context is None:
             context = {}
@@ -35,10 +34,9 @@ class account_state_open(osv.osv_memory):
             data_inv = obj_invoice.browse(cr, uid, context['active_ids'][0], context=context)
             if data_inv.reconciled:
                 raise osv.except_osv(_('Warning!'), _('Invoice is already reconciled.'))
-            wf_service = netsvc.LocalService("workflow")
+            wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(uid, 'account.invoice', context['active_ids'][0], 'open_test', cr)
         return {'type': 'ir.actions.act_window_close'}
 
-account_state_open()
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+account_state_open()

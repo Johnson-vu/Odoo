@@ -18,21 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
 class stock_location_product(osv.osv_memory):
-    _name = "stock.location.product"
-    _description = "Products by Location"
-    _columns = {
-        'from_date': fields.datetime('From'), 
-        'to_date': fields.datetime('To'),
-        'type': fields.selection([('inventory','Analyze current inventory'),
-            ('period','Analyze period')], 'Analysis Type', required=True), 
-    }
+    _name = 'stock.location.product'
+    _description = 'Products by Location'
+    _columns = {'from_date': fields.datetime('From'),
+     'to_date': fields.datetime('To'),
+     'type': fields.selection([('inventory', 'Analyse Current Inventory'), ('period', 'Analyse a Period')], 'Analyse Type', required=True)}
 
-    def action_open_window(self, cr, uid, ids, context=None):
+    def action_open_window(self, cr, uid, ids, context = None):
         """ To open location wise product information specific to given duration
          @param self: The object pointer.
          @param cr: A database cursor
@@ -45,18 +41,17 @@ class stock_location_product(osv.osv_memory):
             context = {}
         location_products = self.read(cr, uid, ids, ['from_date', 'to_date'], context=context)
         if location_products:
-            return {
-                'name': _('Current Inventory'),
-                'view_type': 'form',
-                'view_mode': 'tree,form',
-                'res_model': 'product.product',
-                'type': 'ir.actions.act_window',
-                'context': {'location': context['active_id'],
-                       'from_date': location_products[0]['from_date'],
-                       'to_date': location_products[0]['to_date']},
-                'domain': [('type', '<>', 'service')],
-            }
+            return {'name': _('Current Inventory'),
+             'view_type': 'form',
+             'view_mode': 'tree,form',
+             'res_model': 'product.product',
+             'type': 'ir.actions.act_window',
+             'context': {'location': context['active_id'],
+                         'from_date': location_products[0]['from_date'],
+                         'to_date': location_products[0]['to_date']},
+             'domain': [('type', '<>', 'service')]}
+        else:
+            return
+
 
 stock_location_product()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

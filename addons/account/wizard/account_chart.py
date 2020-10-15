@@ -18,64 +18,45 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 
 class account_chart(osv.osv_memory):
     """
     For Chart of Accounts
     """
-    _name = "account.chart"
-    _description = "Account chart"
-    _columns = {
-        'fiscalyear': fields.many2one('account.fiscalyear', \
-                                    'Fiscal year',  \
-                                    help='Keep empty for all open fiscal years'),
-        'period_from': fields.many2one('account.period', 'Start period'),
-        'period_to': fields.many2one('account.period', 'End period'),
-        'target_move': fields.selection([('posted', 'All Posted Entries'),
-                                         ('all', 'All Entries'),
-                                        ], 'Target Moves', required=True),
-    }
+    _name = 'account.chart'
+    _description = 'Account chart'
+    _columns = {'fiscalyear': fields.many2one('account.fiscalyear', 'Fiscal year', help='Keep empty for all open fiscal years'),
+     'period_from': fields.many2one('account.period', 'Start period'),
+     'period_to': fields.many2one('account.period', 'End period'),
+     'target_move': fields.selection([('posted', 'All Posted Entries'), ('all', 'All Entries')], 'Target Moves', required=True)}
 
-    def _get_fiscalyear(self, cr, uid, context=None):
+    def _get_fiscalyear(self, cr, uid, context = None):
         """Return default Fiscalyear value"""
         return self.pool.get('account.fiscalyear').find(cr, uid, context=context)
 
-    def onchange_fiscalyear(self, cr, uid, ids, fiscalyear_id=False, context=None):
+    def onchange_fiscalyear(self, cr, uid, ids, fiscalyear_id = False, context = None):
         res = {}
         if fiscalyear_id:
             start_period = end_period = False
-            cr.execute('''
-                SELECT * FROM (SELECT p.id
-                               FROM account_period p
-                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
-                               WHERE f.id = %s
-                               ORDER BY p.date_start ASC, p.special DESC
-                               LIMIT 1) AS period_start
-                UNION ALL
-                SELECT * FROM (SELECT p.id
-                               FROM account_period p
-                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
-                               WHERE f.id = %s
-                               AND p.date_start < NOW()
-                               ORDER BY p.date_stop DESC
-                               LIMIT 1) AS period_stop''', (fiscalyear_id, fiscalyear_id))
-            periods =  [i[0] for i in cr.fetchall()]
+            cr.execute('\n                SELECT * FROM (SELECT p.id\n                               FROM account_period p\n                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)\n                               WHERE f.id = %s\n                               ORDER BY p.date_start ASC\n                               LIMIT 1) AS period_start\n                UNION ALL\n                SELECT * FROM (SELECT p.id\n                               FROM account_period p\n                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)\n                               WHERE f.id = %s\n                               AND p.date_start < NOW()\n                               ORDER BY p.date_stop DESC\n                               LIMIT 1) AS period_stop', (fiscalyear_id, fiscalyear_id))
+            periods = [ i[0] for i in cr.fetchall() ]
             if periods and len(periods) > 1:
                 start_period = periods[0]
                 end_period = periods[1]
-            res['value'] = {'period_from': start_period, 'period_to': end_period}
+            res['value'] = {'period_from': start_period,
+             'period_to': end_period}
         else:
-            res['value'] = {'period_from': False, 'period_to': False}
+            res['value'] = {'period_from': False,
+             'period_to': False}
         return res
 
-    def account_chart_open_window(self, cr, uid, ids, context=None):
+    def account_chart_open_window(self, cr, uid, ids, context = None):
         """
         Opens chart of Accounts
         @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: List of account chart’s IDs
+        @param uid: the current user\xe2\x80\x99s ID for security checks,
+        @param ids: List of account chart\xe2\x80\x99s IDs
         @return: dictionary of Open account chart window on given fiscalyear and all Entries or posted entries
         """
         mod_obj = self.pool.get('ir.model.data')
@@ -94,17 +75,15 @@ class account_chart(osv.osv_memory):
             period_from = data.get('period_from', False) and data['period_from'][0] or False
             period_to = data.get('period_to', False) and data['period_to'][0] or False
             result['periods'] = period_obj.build_ctx_periods(cr, uid, period_from, period_to)
-        result['context'] = str({'fiscalyear': fiscalyear_id, 'periods': result['periods'], \
-                                    'state': data['target_move']})
+        result['context'] = str({'fiscalyear': fiscalyear_id,
+         'periods': result['periods'],
+         'state': data['target_move']})
         if fiscalyear_id:
             result['name'] += ':' + fy_obj.read(cr, uid, [fiscalyear_id], context=context)[0]['code']
         return result
 
-    _defaults = {
-        'target_move': 'posted',
-        'fiscalyear': _get_fiscalyear,
-    }
+    _defaults = {'target_move': 'posted',
+     'fiscalyear': _get_fiscalyear}
+
 
 account_chart()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

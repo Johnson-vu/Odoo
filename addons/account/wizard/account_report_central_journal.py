@@ -18,28 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import fields, osv
 
 class account_central_journal(osv.osv_memory):
     _name = 'account.central.journal'
     _description = 'Account Central Journal'
-    _inherit = "account.common.journal.report"
+    _inherit = 'account.common.journal.report'
+    _columns = {'journal_ids': fields.many2many('account.journal', 'account_central_journal_journal_rel', 'account_id', 'journal_id', 'Journals', required=True)}
 
-    _columns = {
-        'journal_ids': fields.many2many('account.journal', 'account_central_journal_journal_rel', 'account_id', 'journal_id', 'Journals', required=True),
-    }
-
-    def _print_report(self, cr, uid, ids, data, context=None):
+    def _print_report(self, cr, uid, ids, data, context = None):
         data = self.pre_print_report(cr, uid, ids, data, context=context)
-        return {
-                'type': 'ir.actions.report.xml',
-                'report_name': 'account.central.journal',
-                'datas': data,
-        }
+        return {'type': 'ir.actions.report.xml',
+         'report_name': 'account.central.journal',
+         'datas': data}
+
 
 account_central_journal()
-
-#vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
