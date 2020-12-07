@@ -6761,7 +6761,7 @@ msgstr ""
 "Sử dụng các hành động tự động để tự động kích hoạt các hành động cho các màn hình khác nhau.\n"
 "\n"
 "** Ví dụ: ** Một khách hàng tiềm năng được tạo bởi một người dùng cụ thể có thể được tự động đặt thành một cụ thể\n"
-"Nhóm bán hàng hoặc cơ hội vẫn còn trạng thái chờ xử lý sau 14 ngày có thể\n"
+"Đội bán hàng hoặc cơ hội vẫn còn trạng thái chờ xử lý sau 14 ngày có thể\n"
 "kích hoạt một email nhắc nhở tự động.\n"
 "    "
 
@@ -7516,19 +7516,19 @@ msgid ""
 msgstr ""
 "\n"
 "Dùng ngân sách để so sánh doanh thu và chi phí dự kiến với thực tế\n"
-"--------------------------------------------------------------\n"
+"------------------------------------------------------------------\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_sales_team
 msgid ""
 "\n"
 "Using this application you can manage Sales Teams  with CRM and/or Sales\n"
-"===========================================================================\n"
+"========================================================================\n"
 " "
 msgstr ""
 "\n"
-"Sử dụng ứng dụng này, bạn có thể quản lý nhóm bán hàng với CRM và / hoặc bán hàng\n"
-"===========================================================================\n"
+"Sử dụng ứng dụng này, bạn có thể quản lý Đội bán hàng với CRM và / hoặc bán hàng\n"
+"================================================================================\n"
 " "
 
 #. module: base
@@ -8909,6 +8909,8 @@ msgid ""
 "A partner with the same <span><span class=\"o_vat_label\">Tax "
 "ID</span></span> already exists ("
 msgstr ""
+"Một đối tác có cùng <span><span class=\"o_vat_label\">Mã số "
+"thuế</span></span> đã tồn tại ("
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_10
@@ -9796,7 +9798,7 @@ msgstr "Cho phép thu ngân in lại biên lai"
 #. module: base
 #: model:ir.module.module,summary:base.module_helpdesk_fsm
 msgid "Allow generating fsm tasks from ticket"
-msgstr ""
+msgstr "Cho phép tạo nhiệm vụ fsm từ yêu cầu hỗ trợ"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_ocn_client
@@ -21698,7 +21700,7 @@ msgstr "Các quyền bổ sung khác"
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__ir_module_module__license__other_osi_approved_licence
 msgid "Other OSI Approved License"
-msgstr ""
+msgstr "Giấy phép khác được OSI chấp thuận"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.action_partner_other_form
